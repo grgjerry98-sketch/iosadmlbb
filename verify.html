@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6022104026300246"
+     crossorigin="anonymous"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TaskStation — Verify to download</title>
+  <link rel="icon" href="assets/jerrygames-favicon.png" />
+  <style>
+    /* ---- New theme: TaskStation (distinct from previous "JerryGames" styling) ---- */
+    :root{
+      --bg: #0f1720;            /* dark navy */
+      --panel: #081018;         /* darker panel */
+      --accent: #ffaa2b;       /* amber */
+      --accent-2: #00c2a8;     /* teal */
+      --muted: #9aa7b2;
+      --card: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      --glass: rgba(255,255,255,0.03);
+      --success: #0bd67a;
+      --danger: #ff6b6b;
+      --radius: 14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg) 0%, #071018 100%);color:#e6eef2;-webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    .wrap{max-width:1100px;margin:28px auto;padding:20px}
+    .topbar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-radius:12px;background:rgba(255,255,255,0.02);
+      box-shadow:0 10px 40px rgba(2,6,23,0.6);
+      border:1px solid rgba(255,255,255,0.02);
+      margin-bottom:18px;
+      backdrop-filter: blur(4px);
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+    }
+    .logo-circle{
+      width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent-2),var(--accent));
+      display:flex;align-items:center;justify-content:center;font-weight:900;color:#042226;box-shadow:0 10px 30px rgba(0,0,0,0.45);
+      font-size:18px;
+    }
+    .brand-title{font-weight:800;font-size:16px;color:#dff6ef}
+    .brand-sub{font-size:12px;color:var(--muted)}
+
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:20px;
+      align-items:start;
+    }
+    @media(max-width:980px){
+      .layout{grid-template-columns:1fr}
+    }
+
+    .main-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow: 0 18px 50px rgba(3,7,16,0.7);
+      border:1px solid rgba(255,255,255,0.02);
+      min-height:260px;
+      overflow:hidden;
+    }
+
+    .player-frame{
+      background:#000;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);
+      min-height:260px;position:relative;
+    }
+    .player-hint{
+      position:absolute;left:12px;top:12px;background:rgba(0,0,0,0.42);padding:6px 10px;border-radius:999px;font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center;
+      backdrop-filter: blur(4px);
+    }
+
+    .timeline{
+      display:flex;align-items:center;gap:12px;margin-top:8px;
+    }
+    .time-left{font-size:13px;color:var(--muted);min-width:72px}
+    .time-bar{flex:1;height:12px;background: rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.02)}
+    .time-bar > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent-2),var(--accent));box-shadow:0 10px 30px rgba(0,0,0,0.6) inset;transition:width .45s cubic-bezier(.2,.9,.3,1)}
+    .time-progress{font-size:13px;color:var(--muted);min-width:78px;text-align:right}
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.02);
+      box-shadow:0 10px 40px rgba(2,6,23,0.6);
+      min-height:320px;
+    }
+
+    .btn-primary{
+      background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#042226;padding:10px 12px;border-radius:10px;border:0;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;
+      box-shadow:0 12px 36px rgba(0,0,0,0.6);
+    }
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:10px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+    .confirm-row{display:flex;gap:12px;align-items:center;margin-top:12px}
+    .complete{
+      display:inline-block;margin-top:16px;padding:12px 16px;border-radius:12px;background:linear-gradient(90deg,var(--muted),var(--muted));color:#0b1316;font-weight:800;text-decoration:none;opacity:.6;pointer-events:none;
+    }
+    .complete.on{background:linear-gradient(90deg,var(--accent-2),var(--accent));opacity:1;pointer-events:auto;color:#042226;box-shadow:0 18px 48px rgba(0,0,0,0.6)}
+
+    .small{font-size:12px;color:var(--muted);margin-top:10px}
+    .footer-note{font-size:12px;color:var(--muted);margin-top:16px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo-circle">TS</div>
+        <div>
+          <div class="brand-title">TaskStation</div>
+          <div class="brand-sub">Quick verification center</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="small" style="color:var(--muted)">Secure • Fast • Transparent</div>
+      </div>
+    </div>
+
+    <div class="layout">
+      <section class="main-card" aria-labelledby="main-heading">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div>
+            <div style="font-weight:900;font-size:16px;color:#e8fffb" id="main-heading">Watch & verify</div>
+            <div style="color:var(--muted);font-size:13px;margin-top:6px" id="appName">Preparing task...</div>
+          </div>
+          <div id="statusBadge" style="display:flex;gap:8px;align-items:center">
+            <div style="font-size:13px;color:var(--muted)">Status:</div>
+            <div id="statusDot" style="background:#274040;color:#dff6ef;padding:6px 10px;border-radius:999px;font-weight:700">Waiting</div>
+          </div>
+        </div>
+
+        <div class="player-frame" id="playerFrame">
+          <div class="player-hint" id="playerHint"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:.9"><path d="M10 8.64L15.27 12 10 15.36V8.64z" fill="currentColor"/></svg> PLEASE SCROLL DOWN AND PLAY ON YOUTUBE</div>
+          <div id="player" style="width:100%;height:100%;min-height:260px"></div>
+        </div>
+
+        <div class="timeline" role="progressbar" aria-valuemin="0" aria-valuemax="180" aria-valuenow="0">
+          <div class="time-left">0s</div>
+          <div class="time-bar" aria-hidden="true"><i id="bar"></i></div>
+          <div class="time-progress" id="timeProgress">0 / 180s</div>
+        </div>
+
+        <div class="small" id="helpText" style="margin-top:10px;color:var(--muted)">Leave this tab (open YouTube app) </div>
+      </section>
+
+      <aside class="panel">
+        <div class="h" id="taskTitle">Verification steps</div>
+        <div class="p">Follow the simple steps below to complete verification and get your download.</div>
+
+        <div class="steps" id="stepsList">
+          <div class="step">
+            <div class="icon">1</div>
+            <div class="meta">
+              <h4>Watch the video (3 minutes)</h4>
+              <p>We measure play time and also allow background counting while you switch to the YouTube app.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="icon">2</div>
+            <div class="meta">
+              <h4>Like the video</h4>
+              <p>Open the video on YouTube, hit Like, then come back and confirm below.</p>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="icon">3</div>
+            <div class="meta">
+              <h4>Subscribe to the channel</h4>
+              <p>Open the channel page, subscribe, and return to finish the task.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid rgba(255,255,255,0.02);margin-top:14px;padding-top:14px">
+          <div class="h" style="font-size:13px;margin-bottom:6px">Quick actions</div>
+          <div class="actions">
+            <a id="openVideo" class="btn-primary" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 8.64L15.27 12 10 15.36V8.64z" fill="#042226"/></svg> Open video</a>
+            <a id="openChannel" class="btn-ghost" target="_blank" rel="noopener">Open channel</a>
+            <a id="helpBtn" class="btn-ghost" style="margin-left:auto">How this works</a>
+          </div>
+
+          <div class="confirm-row" style="margin-top:12px">
+            <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="liked"> I liked the video</label>
+            <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="subscribed"> I subscribed</label>
+          </div>
+
+          <div style="display:flex;gap:10px;align-items:center;justify-content:flex-end">
+            <!-- anchor used but we will intercept click to force same-tab download from file -->
+            <a id="completeBtn" class="complete" href="#" target="_blank" rel="noopener">Complete & Download</a>
+          </div>
+
+          <div class="footer-note small" style="margin-top:10px;color:var(--muted)">
+            Note: We can’t automatically verify likes/subscriptions without Google APIs. Please perform the actions on YouTube and confirm here.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    /***** CONFIG: change these per-app or pass via query param ?app=... *****/
+    const params = new URLSearchParams(location.search);
+    const appId = (params.get('app') || 'ml-advance').trim();
+
+    // Map of apps — include download_android file path (relative or absolute)
+    const DATA = {
+      "ml-advance": {
+        title: "Mobile Legends: Advance Server",
+        verifyVideoId: "BsAI700y-DM",                 // your video ID
+        channelUrl: "https://youtube.com/@jerryeditsjg?si=CzkbrnjhzvVUcoag",
+        // MediaFire share page — we'll open this in a new tab when finished
+        download_ios: "https://departures.to/apps/18455"
+      },
+      "pubg-mobile": {
+        title: "PUBG Mobile: Advance Server",
+        verifyVideoId: "VIDEO_ID_PUBG",
+        channelUrl: "https://www.youtube.com/",
+        download_android: "https://www.example.com/assets/apks/pubg-advance.apk"
+      }
+      // add other apps here
+    };
+
+    const app = DATA[appId] || DATA['ml-advance'];
+
+    // UI elements
+    const appNameEl = document.getElementById('appName');
+    const statusDot = document.getElementById('statusDot');
+    const bar = document.getElementById('bar');
+    const timeProgress = document.getElementById('timeProgress');
+    const openVideo = document.getElementById('openVideo');
+    const openChannel = document.getElementById('openChannel');
+    const liked = document.getElementById('liked');
+    const subscribed = document.getElementById('subscribed');
+    const completeBtn = document.getElementById('completeBtn');
+
+    // initialize UI
+    appNameEl.textContent = app.title || 'Verification task';
+    statusDot.textContent = 'Waiting';
+
+    if(app.verifyVideoId){
+      openVideo.href = `https://www.youtube.com/watch?v=${encodeURIComponent(app.verifyVideoId)}`;
+    } else {
+      openVideo.href = '#';
+      openVideo.classList.add('btn-ghost');
+    }
+    openChannel.href = app.channelUrl || '#';
+
+    // Watch-time logic
+    let player = null;
+    let lastPlayTimestamp = 0;
+    let watchedSeconds = 0;
+    const requiredSeconds = 2; // 3 minutes
+    let bgInterval = null;
+
+    function updateUI(tempVal){
+      const val = (typeof tempVal === 'number') ? tempVal : watchedSeconds;
+      const capped = Math.min(val, requiredSeconds);
+      const pct = Math.round((capped / requiredSeconds) * 100);
+      bar.style.width = pct + '%';
+      timeProgress.textContent = `${Math.min(Math.floor(val), requiredSeconds)} / ${requiredSeconds}s`;
+      if(capped >= requiredSeconds){
+        statusDot.textContent = 'Watched';
+        statusDot.style.background = 'linear-gradient(90deg,var(--accent-2),var(--accent))';
+        statusDot.style.color = '#042226';
+      } else {
+        statusDot.textContent = 'Watching';
+        statusDot.style.background = 'transparent';
+        statusDot.style.color = '#dff6ef';
+      }
+      checkEnableComplete();
+    }
+
+    function checkEnableComplete(){
+      let currentWatched = watchedSeconds;
+      if(lastPlayTimestamp && player && typeof player.getCurrentTime === 'function'){
+        try{
+          const cur = Math.floor(player.getCurrentTime() || 0);
+          currentWatched = Math.max(currentWatched, cur);
+        } catch(e){ console.warn('getCurrentTime failed', e); }
+      }
+      const watchedOk = currentWatched >= requiredSeconds;
+
+      // enable only when watched and both checkboxes checked
+      if(watchedOk && liked.checked && subscribed.checked){
+        completeBtn.classList.add('on');
+        // set the final link to open in new tab
+        completeBtn.dataset.download = app.download_android || '';
+        completeBtn.href = app.download_android || '#';
+        completeBtn.setAttribute('aria-disabled', 'false');
+      } else {
+        completeBtn.classList.remove('on');
+        completeBtn.dataset.download = '';
+        completeBtn.href = '#';
+        completeBtn.setAttribute('aria-disabled', 'true');
+      }
+    }
+
+    // YouTube API integration
+    function onYouTubeIframeAPIReady(){
+      if(!app.verifyVideoId) return;
+      player = new YT.Player('player', {
+        height: '360',
+        width: '100%',
+        videoId: app.verifyVideoId,
+        playerVars: {
+          'playsinline': 1,
+          'rel': 0,
+          'modestbranding': 1
+        },
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(ev){
+      if(ev.data === YT.PlayerState.PLAYING){
+        lastPlayTimestamp = Date.now();
+      } else {
+        if(lastPlayTimestamp){
+          const delta = Math.floor((Date.now() - lastPlayTimestamp)/1000);
+          watchedSeconds += Math.max(0, delta);
+          lastPlayTimestamp = 0;
+          updateUI();
+        }
+      }
+      if(ev.data === YT.PlayerState.ENDED){
+        watchedSeconds = Math.max(watchedSeconds, requiredSeconds);
+        updateUI();
+      }
+    }
+
+    // periodic UI update
+    setInterval(()=>{
+      let temp = watchedSeconds;
+      if(lastPlayTimestamp){
+        const delta = Math.floor((Date.now() - lastPlayTimestamp)/1000);
+        temp += Math.max(0, delta);
+      }
+      updateUI(temp);
+    }, 700);
+
+    // visibility handling: background counting when tab hidden
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){
+        if(lastPlayTimestamp){
+          const delta = Math.floor((Date.now() - lastPlayTimestamp)/1000);
+          watchedSeconds += Math.max(0, delta);
+          lastPlayTimestamp = 0;
+        }
+        if(!bgInterval && watchedSeconds < requiredSeconds){
+          bgInterval = setInterval(()=>{
+            watchedSeconds++;
+            updateUI();
+            if(watchedSeconds >= requiredSeconds){ clearInterval(bgInterval); bgInterval = null; }
+          }, 1000);
+        }
+      } else {
+        if(bgInterval){ clearInterval(bgInterval); bgInterval = null; }
+        updateUI();
+      }
+    });
+
+    // checkbox handlers
+    liked.addEventListener('change', checkEnableComplete);
+    subscribed.addEventListener('change', checkEnableComplete);
+
+    // FINAL: open MediaFire link in new tab when ready
+    completeBtn.addEventListener('click', (e) => {
+      // if not enabled, prevent default and warn
+      if(!completeBtn.classList.contains('on')){
+        e.preventDefault();
+        alert('Please finish watching for 3 minutes and confirm Like & Subscribe.');
+        return;
+      }
+      // allow default anchor behavior to open the link in new tab
+      // but ensure it opens in a new tab (some browsers require window.open)
+      const url = completeBtn.dataset.download || completeBtn.href;
+      if(!url || url === '#'){
+        e.preventDefault();
+        alert('Download link not configured.');
+        return;
+      }
+      // open in new tab/window securely
+      window.open(url, '_blank', 'noopener');
+    });
+
+    // Save final play bits on unload
+    window.addEventListener('beforeunload', ()=>{
+      if(lastPlayTimestamp){
+        const delta = Math.floor((Date.now() - lastPlayTimestamp)/1000);
+        watchedSeconds += Math.max(0, delta);
+        lastPlayTimestamp = 0;
+      }
+    });
+
+    // initial UI
+    updateUI();
+
+    // expose youtube callback
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+  </script>
+</body>
+</html>
