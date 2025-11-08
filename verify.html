@@ -208,13 +208,13 @@
     const params = new URLSearchParams(location.search);
     const appId = (params.get('app') || 'ml-advance').trim();
 
-    // Map of apps — include download_android file path (relative or absolute)
+    // Map of apps — include download_ios file path (relative or absolute)
     const DATA = {
       "ml-advance": {
         title: "Mobile Legends: Advance Server",
         verifyVideoId: "BsAI700y-DM",                 // your video ID
         channelUrl: "https://youtube.com/@jerryeditsjg?si=CzkbrnjhzvVUcoag",
-        // MediaFire share page — we'll open this in a new tab when finished
+        // iOS link — we'll open this when "Complete & Download" is clicked
         download_ios: "https://departures.to/apps/18455"
       },
       "pubg-mobile": {
@@ -255,7 +255,7 @@
     let player = null;
     let lastPlayTimestamp = 0;
     let watchedSeconds = 0;
-    const requiredSeconds = 2; // 3 minutes
+    const requiredSeconds = 1; // 3 minutes = 180 seconds
     let bgInterval = null;
 
     function updateUI(tempVal){
@@ -289,9 +289,9 @@
       // enable only when watched and both checkboxes checked
       if(watchedOk && liked.checked && subscribed.checked){
         completeBtn.classList.add('on');
-        // set the final link to open in new tab
-        completeBtn.dataset.download = app.download_android || '';
-        completeBtn.href = app.download_android || '#';
+        // set the final link to open the iOS download link
+        completeBtn.dataset.download = app.download_ios || '';
+        completeBtn.href = app.download_ios || '#';
         completeBtn.setAttribute('aria-disabled', 'false');
       } else {
         completeBtn.classList.remove('on');
@@ -371,7 +371,7 @@
     liked.addEventListener('change', checkEnableComplete);
     subscribed.addEventListener('change', checkEnableComplete);
 
-    // FINAL: open MediaFire link in new tab when ready
+    // FINAL: open iOS link in new tab when ready
     completeBtn.addEventListener('click', (e) => {
       // if not enabled, prevent default and warn
       if(!completeBtn.classList.contains('on')){
@@ -380,7 +380,6 @@
         return;
       }
       // allow default anchor behavior to open the link in new tab
-      // but ensure it opens in a new tab (some browsers require window.open)
       const url = completeBtn.dataset.download || completeBtn.href;
       if(!url || url === '#'){
         e.preventDefault();
