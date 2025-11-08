@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MLBB Advance Server — iOS (Demo)</title>
+  <title>MLBB Advance ServeriOS </title>
   <style>
     :root{
       --bg1: #0f172a;
@@ -46,15 +46,12 @@
     }
     @keyframes fadeIn {from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
-    .logo{
-      display:inline-flex;align-items:center;justify-content:center;
-      width:72px;height:72px;
-      border-radius:18px;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      font-size:28px;font-weight:700;
-      margin-bottom:12px;
-      box-shadow:0 0 20px rgba(124,58,237,0.5);
-    }
+   .logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  object-fit: cover;
+}
 
     h1{margin:0 0 10px;font-size:20px}
     p{margin:0 0 20px;color:var(--muted);line-height:1.4}
@@ -92,9 +89,13 @@
   <div class="bg-anim"></div>
   <div class="wrap">
     <div class="card">
-      <div class="logo">A</div>
-      <h1>MLBB Advance Server — iOS (Demo)</h1>
-      <p>This vivid demo page shows how the app looks. Clicking any button goes to the verification page (no real download).</p>
+     <div class="logo">
+  <img src="mlbb-icon.png" alt="MLBB Logo">
+</div>
+      <h1>MLBB Advance Server iOS</h1>
+      <p>Step 1: Download Testflight
+Step 2: Verify to Get Download link
+Step 3: Download the App</p>
 
       <div class="info">
         <div class="box"><strong>Build</strong><br>v2.1.0-beta</div>
@@ -106,7 +107,7 @@
         <a href="verify.html" class="btn alt">Download .ipa (direct)</a>
       </div>
 
-      <div class="foot">This is a safe demo — nothing will be downloaded.</div>
+      <div class="foot"> Click Download button </div>
     </div>
   </div>
 </body>
