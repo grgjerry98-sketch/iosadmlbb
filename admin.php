@@ -41,13 +41,13 @@ function h($s) {
 </style>
 </head>
 <body>
-  <h2>TaskStation — Click stats</h2>
+  <h2>TaskStation â€” Click stats</h2>
   <div class="card">
     <div><strong>Total events:</strong> <?php echo h($data['total'] ?? 0); ?></div>
     <div style="margin-top:6px"><strong>By action:</strong></div>
     <ul>
       <?php foreach (($data['actions'] ?? []) as $act => $c): ?>
-        <li><?php echo h($act); ?> — <?php echo (int)$c; ?></li>
+        <li><?php echo h($act); ?> â€” <?php echo (int)$c; ?></li>
       <?php endforeach; ?>
     </ul>
   </div>
