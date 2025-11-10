@@ -102,7 +102,7 @@
     .small{font-size:12px;color:var(--muted);margin-top:10px}
     .footer-note{font-size:12px;color:var(--muted);margin-top:16px}
 
-    /* ---- Tracker UI styles (top-right) ---- */
+    /* tracker button style (top-right) */
     #tsTrackerBtn {
       position: fixed;
       right: 10px;
@@ -121,27 +121,6 @@
       user-select:none;
     }
     #tsTrackerBtn svg{ width:18px; height:18px; pointer-events:none; }
-
-    #tsStatsPanel {
-      position: fixed;
-      right: 12px;
-      top: 56px;
-      width: 280px;
-      background: #071018;
-      border:1px solid rgba(255,255,255,0.04);
-      padding:12px;
-      border-radius:10px;
-      color:#dff6ef;
-      z-index:1000000;
-      box-shadow:0 12px 40px rgba(0,0,0,0.6);
-      font-family:Inter, system-ui, sans-serif;
-      display:none;
-      font-size:13px;
-    }
-    #tsStatsPanel h4{margin:0 0 8px 0;font-size:14px}
-    #tsStatsPanel .statRow{display:flex;justify-content:space-between;padding:8px 6px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));margin-top:6px}
-    #tsStatsPanel button { margin-top:10px;padding:8px 10px;border-radius:8px;border:0;background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#042226;font-weight:800;cursor:pointer }
-    #tsStatsPanel .small{font-size:12px;color:#9aa7b2;margin-top:8px}
   </style>
 </head>
 <body>
@@ -242,21 +221,11 @@
     </div>
   </div>
 
-  <!-- Top-right tracker button (UI) -->
-  <div id="tsTrackerBtn" title="TaskStation stats">
+  <!-- small top-right tracker button -->
+  <div id="tsTrackerBtn" title="TaskStation tracker">
     <svg viewBox="0 0 24 24" fill="none" aria-hidden>
       <path d="M12 5v14M5 12h14" stroke="#a6fff3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-  </div>
-
-  <!-- Stats panel (hidden until tracker clicked) -->
-  <div id="tsStatsPanel" aria-hidden="true">
-    <h4>TaskStation — Local stats</h4>
-    <div class="statRow"><div>Complete & Download clicks</div><div id="tsCountComplete">0</div></div>
-    <div class="statRow"><div>Tracker button clicks</div><div id="tsCountCorner">0</div></div>
-    <div class="statRow"><div>Last click</div><div id="tsLast">—</div></div>
-    <button id="tsResetBtn">Reset counts</button>
-    <div class="small">Counts are stored in this browser's localStorage.</div>
   </div>
 
   <!-- YouTube IFrame API -->
@@ -313,7 +282,7 @@
     let player = null;
     let lastPlayTimestamp = 0;
     let watchedSeconds = 0;
-    const requiredSeconds = 180; // 3 minutes = 180 seconds
+    const requiredSeconds = 1; // 3 minutes = 180 seconds
     let bgInterval = null;
 
     function updateUI(tempVal){
@@ -464,95 +433,58 @@
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   </script>
 
-  <!-- Simple client-side tracker (localStorage) -->
+  <!-- ===== Add/replace this where your other scripts sit (before </body>) ===== -->
   <script>
-    (function(){
-      const KEY_COMPLETE = 'ts_complete_clicks_v1';
-      const KEY_CORNER   = 'ts_corner_clicks_v1';
-      const KEY_LAST     = 'ts_last_click_v1';
+  (function(){
+    // CONFIG - change to your actual URL and token
+    const TRACK_ENDPOINT = '/track.php'; // or absolute: https://yourdomain.com/track.php
+    const TRACK_TOKEN = 'REPLACE_WITH_STRONG_TOKEN'; // must match server token
 
-      const tsTrackerBtn = document.getElementById('tsTrackerBtn');
-      const tsPanel = document.getElementById('tsStatsPanel');
-      const tsCountComplete = document.getElementById('tsCountComplete');
-      const tsCountCorner = document.getElementById('tsCountCorner');
-      const tsLast = document.getElementById('tsLast');
-      const tsResetBtn = document.getElementById('tsResetBtn');
-
-      function readCount(key){ return parseInt(localStorage.getItem(key) || '0', 10); }
-      function writeCount(key, n){ localStorage.setItem(key, String(n)); }
-      function writeLast(text){ localStorage.setItem(KEY_LAST, text); }
-
-      function refreshPanel(){
-        tsCountComplete.textContent = readCount(KEY_COMPLETE);
-        tsCountCorner.textContent = readCount(KEY_CORNER);
-        tsLast.textContent = localStorage.getItem(KEY_LAST) || '—';
+    // helper to send a small event to server
+    async function sendServerEvent(action, meta = {}){
+      // minimal payload
+      const payload = {
+        action,
+        meta,
+        ts: new Date().toISOString()
+      };
+      try{
+        // use keepalive so browser can still send on navigation
+        await fetch(TRACK_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Tracker-Token': TRACK_TOKEN
+          },
+          body: JSON.stringify(payload),
+          keepalive: true
+        });
+      }catch(e){
+        console.warn('Tracking failed', e);
       }
+    }
 
-      function incrementComplete(){
-        const n = readCount(KEY_COMPLETE) + 1;
-        writeCount(KEY_COMPLETE, n);
-        writeLast('Complete clicked @ ' + new Date().toLocaleString());
-        refreshPanel();
-      }
-      function incrementCorner(){
-        const n = readCount(KEY_CORNER) + 1;
-        writeCount(KEY_CORNER, n);
-        writeLast('Tracker clicked @ ' + new Date().toLocaleString());
-        refreshPanel();
-      }
-
-      // attach to Complete & Download button (counts only when enabled)
-      const completeBtn = document.getElementById('completeBtn');
-      if(completeBtn){
-        completeBtn.addEventListener('click', function(e){
-          // count only when button is enabled (class 'on')
-          if(completeBtn.classList.contains('on')){
-            incrementComplete();
-          }
-        }, {passive:true});
-      }
-
-      // attach to tracker button: toggle panel and count click
-      tsTrackerBtn.addEventListener('click', function(e){
-        // increment counter each time the tracker is clicked
-        incrementCorner();
-
-        // toggle the stats panel
-        const isShown = tsPanel.style.display === 'block';
-        if(isShown){
-          tsPanel.style.display = 'none';
-          tsPanel.setAttribute('aria-hidden','true');
-        } else {
-          refreshPanel();
-          tsPanel.style.display = 'block';
-          tsPanel.setAttribute('aria-hidden','false');
+    // Attach to your existing Complete & Download button
+    const completeBtn = document.getElementById('completeBtn');
+    if(completeBtn){
+      completeBtn.addEventListener('click', function(e){
+        // only count when enabled
+        const enabled = completeBtn.classList.contains('on');
+        if(enabled){
+          // attach minimal useful meta (app id and download url)
+          sendServerEvent('complete_download_click', { url: completeBtn.dataset.download || completeBtn.href || '' });
         }
-      });
+      }, {passive:true});
+    }
 
-      // reset button
-      tsResetBtn.addEventListener('click', function(){
-        if(!confirm('Reset counts (only in this browser)?')) return;
-        writeCount(KEY_COMPLETE, 0);
-        writeCount(KEY_CORNER, 0);
-        localStorage.removeItem(KEY_LAST);
-        refreshPanel();
-      });
-
-      // hide panel on outside click
-      document.addEventListener('click', function(ev){
-        if(tsPanel.style.display !== 'block') return;
-        const withinPanel = tsPanel.contains(ev.target);
-        const withinBtn = tsTrackerBtn.contains(ev.target);
-        if(!withinPanel && !withinBtn){
-          tsPanel.style.display = 'none';
-          tsPanel.setAttribute('aria-hidden','true');
-        }
-      });
-
-      // initialize values
-      refreshPanel();
-
-    })();
+    // small top-right tracker button (exists in the edited HTML)
+    const tsTrackerBtn = document.getElementById('tsTrackerBtn');
+    if(tsTrackerBtn){
+      tsTrackerBtn.addEventListener('click', function(){
+        sendServerEvent('corner_tracker_click', { page: location.pathname });
+      }, {passive:true});
+    }
+  })();
   </script>
 </body>
 </html>
