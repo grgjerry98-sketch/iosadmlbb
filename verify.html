@@ -433,57 +433,60 @@
     window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
   </script>
 
-  <!-- ===== Add/replace this where your other scripts sit (before </body>) ===== -->
+  <!-- ===== replaced server-track script with CountAPI script ===== -->
   <script>
   (function(){
-    // CONFIG - change to your actual URL and token
-    const TRACK_ENDPOINT = '/track.php'; // or absolute: https://yourdomain.com/track.php
-    const TRACK_TOKEN = 'REPLACE_WITH_STRONG_TOKEN'; // must match server token
+    // CONFIG: choose a unique namespace (use your domain or app name)
+    const NAMESPACE = 'mlbbadvserverios-netlify'; // change this to something unique
+    const KEY_COMPLETE = 'complete_download';
+    const KEY_CORNER = 'corner_tracker';
 
-    // helper to send a small event to server
-    async function sendServerEvent(action, meta = {}){
-      // minimal payload
-      const payload = {
-        action,
-        meta,
-        ts: new Date().toISOString()
-      };
-      try{
-        // use keepalive so browser can still send on navigation
-        await fetch(TRACK_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Tracker-Token': TRACK_TOKEN
-          },
-          body: JSON.stringify(payload),
-          keepalive: true
-        });
-      }catch(e){
-        console.warn('Tracking failed', e);
-      }
+    // helper: increment a counter (returns promise with value)
+    async function incrementCounter(key){
+      const url = `https://api.countapi.xyz/hit/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(key)}`;
+      const res = await fetch(url, { method: 'GET', cache: 'no-store' });
+      if(!res.ok) throw new Error('CountAPI hit failed');
+      return res.json(); // { namespace, key, value }
     }
 
-    // Attach to your existing Complete & Download button
+    // helper: get current value (no increment)
+    async function getCounter(key){
+      const url = `https://api.countapi.xyz/get/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(key)}`;
+      const res = await fetch(url, { method: 'GET', cache:'no-store' });
+      if(!res.ok) return { value: 0 };
+      return res.json();
+    }
+
+    // Attach to the existing Complete & Download button (counts only when enabled)
     const completeBtn = document.getElementById('completeBtn');
     if(completeBtn){
-      completeBtn.addEventListener('click', function(e){
-        // only count when enabled
-        const enabled = completeBtn.classList.contains('on');
-        if(enabled){
-          // attach minimal useful meta (app id and download url)
-          sendServerEvent('complete_download_click', { url: completeBtn.dataset.download || completeBtn.href || '' });
+      completeBtn.addEventListener('click', async function(e){
+        if(!completeBtn.classList.contains('on')) return; // only count when enabled
+        try{
+          await incrementCounter(KEY_COMPLETE);
+          // optionally update a small UI or console log
+          console.log('Complete counter incremented');
+        }catch(err){
+          console.warn('Could not increment complete counter', err);
         }
       }, {passive:true});
     }
 
-    // small top-right tracker button (exists in the edited HTML)
+    // Attach to the corner tracker button if present (optional)
     const tsTrackerBtn = document.getElementById('tsTrackerBtn');
     if(tsTrackerBtn){
-      tsTrackerBtn.addEventListener('click', function(){
-        sendServerEvent('corner_tracker_click', { page: location.pathname });
+      tsTrackerBtn.addEventListener('click', async function(){
+        try{
+          await incrementCounter(KEY_CORNER);
+          console.log('Corner counter incremented');
+        }catch(err){
+          console.warn('Could not increment corner counter', err);
+        }
       }, {passive:true});
     }
+
+    // OPTIONAL: if you want to show the counts somewhere on page in real-time,
+    // call getCounter(KEY_COMPLETE) and getCounter(KEY_CORNER) and update your DOM.
   })();
   </script>
 </body>
