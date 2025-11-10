@@ -25,68 +25,78 @@ if (file_exists($DATA_FILE)) {
 function h($s) {
     return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
+
+// get counts
+$downloadClicks = (int)($data['actions']['complete_download_click'] ?? 0);
+$cornerClicks = (int)($data['actions']['corner_tracker_click'] ?? 0);
+$total = (int)($data['total'] ?? 0);
 ?>
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Click tracker admin</title>
+<title>TaskStation Admin — Click Stats</title>
 <style>
-  body{font-family:system-ui,Arial;background:#071018;color:#dff6ef;padding:18px}
-  .card{background:#041018;border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:8px;margin-bottom:12px}
-  table{width:100%;border-collapse:collapse}
-  th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
-  .mono{font-family:monospace;font-size:13px;color:#9aa7b2}
+  body{font-family:Arial,Helvetica,sans-serif;background:#0f1720;color:#e8f4f8;padding:30px;}
+  .card{background:#081018;border:1px solid rgba(255,255,255,0.08);padding:20px;border-radius:10px;margin-bottom:16px;}
+  h1{color:#00c2a8;}
+  h2{color:#ffaa2b;}
+  p{font-size:16px;}
 </style>
 </head>
 <body>
-  <h2>TaskStation â€” Click stats</h2>
+  <h1>TaskStation Admin Panel</h1>
+  
   <div class="card">
-    <div><strong>Total events:</strong> <?php echo h($data['total'] ?? 0); ?></div>
-    <div style="margin-top:6px"><strong>By action:</strong></div>
+    <h2>Summary</h2>
+    <p>✅ Users have clicked the <strong>“Complete &amp; Download”</strong> button <strong><?php echo $downloadClicks; ?></strong> times.</p>
+    <p>📊 The hidden corner button was clicked <strong><?php echo $cornerClicks; ?></strong> times.</p>
+    <p>📁 Total recorded actions: <strong><?php echo $total; ?></strong></p>
+  </div>
+
+  <div class="card">
+    <h2>By Action</h2>
     <ul>
       <?php foreach (($data['actions'] ?? []) as $act => $c): ?>
-        <li><?php echo h($act); ?> â€” <?php echo (int)$c; ?></li>
+        <li><strong><?php echo h($act); ?></strong> — <?php echo (int)$c; ?> times</li>
       <?php endforeach; ?>
     </ul>
   </div>
 
   <div class="card">
-    <h3>Recent events (<?php echo count($data['logs'] ?? []); ?>)</h3>
-    <table>
-      <thead><tr><th>#</th><th>Time</th><th>Action</th><th>IP</th><th>UA</th><th>Meta</th></tr></thead>
+    <h2>Recent Events</h2>
+    <table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%;font-size:14px;color:#cde;">
+      <thead><tr><th>#</th><th>Time</th><th>Action</th><th>IP</th><th>Meta</th></tr></thead>
       <tbody>
       <?php
-        $logs = array_reverse($data['logs'] ?? []); // show newest first
-        $i = 0;
+        $logs = array_reverse($data['logs'] ?? []); // newest first
+        $i=0;
         foreach ($logs as $row) {
           $i++;
-          if ($i > 200) break;
+          if ($i>100) break;
           echo "<tr>";
-          echo "<td>" . $i . "</td>";
-          echo "<td class='mono'>" . h($row['ts'] ?? '') . "</td>";
-          echo "<td>" . h($row['action'] ?? '') . "</td>";
-          echo "<td>" . h($row['ip'] ?? '') . "</td>";
-          echo "<td title=\"" . h($row['ua'] ?? '') . "\">" . h(mb_substr($row['ua'] ?? '', 0, 30, 'UTF-8')) . "</td>";
-          // meta: print compact JSON with unescaped unicode for readability
-          $metaJson = json_encode($row['meta'] ?? [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-          echo "<td class='mono'>" . h($metaJson) . "</td>";
+          echo "<td>{$i}</td>";
+          echo "<td>".h($row['ts'] ?? '')."</td>";
+          echo "<td>".h($row['action'] ?? '')."</td>";
+          echo "<td>".h($row['ip'] ?? '')."</td>";
+          $meta = json_encode($row['meta'] ?? [], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+          echo "<td>".h($meta)."</td>";
           echo "</tr>";
         }
       ?>
       </tbody>
     </table>
   </div>
+
   <div class="card">
-    <form method="post" onsubmit="return confirm('Reset log file? This is permanent.')">
+    <form method="post" onsubmit="return confirm('Do you really want to reset all logs?')">
       <input type="hidden" name="token" value="<?php echo h($SECRET_TOKEN); ?>">
-      <button type="submit" name="action" value="reset">Reset logs</button>
+      <button type="submit" name="action" value="reset" style="padding:10px 16px;background:#ff6b6b;color:#fff;border:0;border-radius:6px;cursor:pointer;">Reset Logs</button>
     </form>
     <?php
       if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['token'] ?? '') === $SECRET_TOKEN && ($_POST['action'] ?? '') === 'reset') {
         @unlink($DATA_FILE);
-        echo "<p style='color:salmon'>Logs reset. Reload page.</p>";
+        echo "<p style='color:salmon;margin-top:10px;'>Logs reset successfully. Reload this page.</p>";
       }
     ?>
   </div>
