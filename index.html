@@ -1,0 +1,176 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Advance Server Unlock</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: auto; /* Allow side scroll */
+      overflow-y: auto; /* Allow vertical scroll */
+    }
+
+    /* Fullscreen video background */
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    /* Dark overlay */
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    .box {
+      text-align: center;
+      color: white;
+      padding: 25px;
+      border-radius: 18px;
+      border: 2px solid #FFD700;
+      background: rgba(15, 25, 40, 0.85);
+      box-shadow: 0px 0px 40px rgba(0,0,0,0.8), 0px 0px 20px rgba(255,215,0,0.3);
+      max-width: 90%;
+      width: 420px;
+      margin: 100px auto;
+      animation: slideUp 1s ease-out;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #FFD700;
+      text-shadow: 0 0 12px #FFD700, 0 0 28px #ffcc00;
+      animation: glow 2s infinite alternate;
+    }
+
+    p {
+      font-size: 16px;
+      color: #e0e0e0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      background: linear-gradient(145deg, #0044cc, #0077ff, #00aaff);
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      margin: 8px;
+      box-shadow: 0 5px 20px rgba(0,136,255,0.6);
+      border: 2px solid #FFD700;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(145deg, #0055ff, #3399ff, #33ccff);
+      box-shadow: 0 7px 25px rgba(0,136,255,0.9), 0px 0px 20px rgba(255,215,0,0.7);
+    }
+
+    .success {
+      font-size: 20px;
+      color: #00FF7F;
+      font-weight: bold;
+      text-shadow: 0 0 15px #00FF7F, 0 0 30px #00FFAA;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    .hidden { display: none; }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #FFD700;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 25px auto;
+    }
+
+    @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+    @keyframes pulse { from {transform: scale(1);} to {transform: scale(1.05);} }
+    @keyframes glow { from {text-shadow: 0 0 12px #FFD700, 0 0 25px #ffcc00;} to {text-shadow: 0 0 30px #ffe066, 0 0 50px #FFD700;} }
+    @keyframes slideUp { from {transform: translateY(40px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+  </style>
+</head>
+<body>
+  <!-- Video Background -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="YOUR_VIDEO.mp4" type="video/mp4">
+  </video>
+  <div id="overlay"></div>
+
+  <div class="box" id="contentBox">
+    <h2>🎮 Unlock MLBB Advance Server File</h2>
+    <p><b>Step 1:</b> Complete the tasks below</p>
+    <a href="https://youtube.com/@jerryeditsjg?si=LB4hU126asmRYX7s?sub_confirmation=1" class="btn" id="subBtn" target="_blank">🔔 Subscribe</a>
+    <a href="https://youtu.be/InTCVOQlmno?si=78-0O9ge0IsYuM7l" class="btn" id="likeBtn" target="_blank">👍 Like Video</a>
+    <br><br>
+    <a href="#" class="btn hidden" id="downloadBtn">📥 Download Advance Server</a>
+  </div>
+
+  <script>
+    // Save tasks
+    document.getElementById("subBtn").addEventListener("click", () => {
+      localStorage.setItem("subTask", "true");
+      checkTasks();
+    });
+    document.getElementById("likeBtn").addEventListener("click", () => {
+      localStorage.setItem("likeTask", "true");
+      checkTasks();
+    });
+
+    function checkTasks() {
+      if (localStorage.getItem("subTask") === "true" && localStorage.getItem("likeTask") === "true") {
+        document.getElementById("downloadBtn").classList.remove("hidden");
+      }
+    }
+
+    // Handle verification
+    document.getElementById("downloadBtn").addEventListener("click", function(e) {
+      e.preventDefault();
+      document.getElementById("contentBox").innerHTML = `
+        <h2>⏳ Verifying...</h2>
+        <div class="spinner"></div>
+        <p>Please wait while we check your tasks...</p>
+      `;
+
+      setTimeout(() => {
+        document.getElementById("contentBox").innerHTML = `
+          <h2>⚠️ Almost Done!</h2>
+          <p>You must watch at least <b>2 minutes</b> of the video to unlock this file.<br>
+          Please go and watch it fully, then return here.</p>
+          <a href="https://youtu.be/JRR1dk04YPo?si=0XHj-Zqm9JIOtAqw" target="_blank" class="btn">▶ Watch Now</a>
+        `;
+
+        setTimeout(() => {
+          document.getElementById("contentBox").innerHTML = `
+            <h2 class="success">✅ Success!</h2>
+            <p>You have unlocked the MLBB Advance Server File.</p><br>
+            <a href="https://www.mediafire.com/YOUR_FILE_LINK" class="btn">📥 Download Now</a>
+          `;
+        }, 30000);
+      }, 3000);
+    });
+
+    window.addEventListener("load", checkTasks);
+  </script>
+</body>
+</html>
